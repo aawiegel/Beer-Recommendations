@@ -1,2 +1,2 @@
-# Beer-Regression
-Modeling Beer Advocate Ratings for different beers
+# Beer-Recommendations
+Creating beer recommendations from user data.
