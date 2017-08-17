@@ -60,10 +60,13 @@ ua = UserAgent()
 
 styles = os.path.join(os.path.curdir, "data", "styles.html")
 
+if not os.path.exists("data")
+    os.makedirs("data")
+
 ## get first styles page
 
 if not os.path.exists(styles):
-    os.makedirs("data")
+
     r = requests.get(start_url)
     page = r.text
     with open(styles, 'w') as file:
