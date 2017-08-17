@@ -54,13 +54,13 @@ with open("mongo_pass.txt", "r") as file:
     mongo_pass = file.read().split("\n")[0]
     
 base_url = "https://www.beeradvocate.com"
-
+start_url = base_url+"/beer/style/"
 
 ua = UserAgent()
 
 styles = os.path.join(os.path.curdir, "data", "styles.html")
 
-if not os.path.exists("data")
+if not os.path.exists("data"):
     os.makedirs("data")
 
 ## get first styles page
@@ -87,6 +87,7 @@ for type_table in type_tables:
     beer_type = type_table.find('span').text.split(" ")[0]
     style_link_dict[beer_type] = dict()
     for style in type_table.findAll('a'):
+        style_name = style.text
         style_name = re.sub("/", "", style_name)
         style_name = re.sub("&", "And", style_name)
         style_name = style_name.split("(")[0]
@@ -101,7 +102,9 @@ print("Adding entries to mongodb")
 
 client = pymongo.MongoClient("mongodb://aawiegel:"+mongo_pass+"@52.53.236.232/beer_styles")
 
-db.beer_styles.createIndex('style_id', unique=True)
+db = client.beer_styles
+
+already_added = []
 
 for category, style_links in style_link_dict.items():        
     for style, url in style_links.items():
