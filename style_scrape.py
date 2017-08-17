@@ -7,7 +7,7 @@ Created on Thu Aug 17 13:33:14 2017
 """
 
 import pymongo
-from bs4 import BeatifulSoup
+from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 import os
 import re
