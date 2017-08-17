@@ -11,6 +11,7 @@ from bs4 import BeautifulSoup
 from fake_useragent import UserAgent
 import os
 import re
+import requests
 
 def download_parse_ba(style_file, url):
     """
