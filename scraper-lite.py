@@ -80,7 +80,7 @@ for lager_style in lager_ids:
             beer_entry = parse_beer_formongo(r.text)
 
             result = db.beer_reviews.update_one({'beer_ba_id' : beer_id}, 
-                                                {"$set" : beer_entry})
+                                                {'$addToSet' : {'reviews' : { '$each' : beer_entry }}})            
 
             time.sleep(random.uniform(3, 5))
         except:
@@ -88,6 +88,9 @@ for lager_style in lager_ids:
             print("Will try again later.")
             time.sleep(random.uniform(25, 35))
             failed_urls.append(beer_url)
+        
+
+            
         
         for i in range(1,page_num+1):
             
@@ -97,7 +100,7 @@ for lager_style in lager_ids:
             
             try:
                 user_agent = {'User-agent': ua.random}
-                r = requests.get(beer_url, headers = user_agent)
+                r = requests.get(next_url, headers = user_agent)
                 
                 beer_entry = parse_beer_formongo(r.text)
                 
@@ -110,6 +113,8 @@ for lager_style in lager_ids:
                 print("Will try again later.")
                 time.sleep(random.uniform(25, 35))
                 failed_urls.append(beer_url)
+            
+
             
     print(lager_style+" is finished.")
 
