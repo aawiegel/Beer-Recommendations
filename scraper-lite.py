@@ -79,7 +79,8 @@ for lager_style in lager_ids:
             r = requests.get(beer_url, headers = user_agent)
             beer_entry = parse_beer_formongo(r.text)
 
-            result = db.beer_reviews.update_one({'beer_ba_id' : beer_id}, {"$set" : beer_entry})
+            result = db.beer_reviews.update_one({'beer_ba_id' : beer_id}, 
+                                                {"$set" : beer_entry})
 
             time.sleep(random.uniform(3, 5))
         except:
@@ -100,7 +101,8 @@ for lager_style in lager_ids:
                 
                 beer_entry = parse_beer_formongo(r.text)
                 
-                result = db.beer_reviews.update_one({'beer_ba_id' : beer_id}, {"$set" : beer_entry})
+                result = db.beer_reviews.update_one({'beer_ba_id' : beer_id}, 
+                                                    {'$addToSet' : {'reviews' : { '$each' : beer_entry }}})
 
                 time.sleep(random.uniform(3, 5))
             except:
