@@ -75,10 +75,12 @@ for lager_style in lager_ids:
         
         try:
             user_agent = {'User-agent': ua.random}
+            
+            r = requests.get(beer_url, headers = user_agent)
+            beer_entry = parse_beer_formongo(r.text)
 
-            print(beer_entry)
             result = db.beer_reviews.update_one({'beer_ba_id' : beer_id}, {"$set" : beer_entry})
-            print(result)
+
             time.sleep(random.uniform(3, 5))
         except:
             print("Could not retrieve "+beer_url)
@@ -97,7 +99,7 @@ for lager_style in lager_ids:
                 r = requests.get(beer_url, headers = user_agent)
                 
                 beer_entry = parse_beer_formongo(r.text)
-                print(beer_entry)
+
                 time.sleep(random.uniform(3, 5))
             except:
                 print("Could not retrieve "+beer_url)
