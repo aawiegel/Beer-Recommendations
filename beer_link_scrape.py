@@ -157,6 +157,7 @@ for style_id in style_ids:
         print(style_id+" is already added.")
         continue
     
+    print(style_id+" is starting.")    
     user_agent = {'User-agent': ua.random}
     
     r = requests.get(style_url, headers = user_agent)
