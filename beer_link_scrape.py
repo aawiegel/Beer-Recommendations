@@ -183,7 +183,7 @@ for style_id in style_ids:
         
         user_agent = {'User-agent': ua.random}
         
-        url_next = url + "?sort=revsD&start="+str(i*50)
+        url_next = style_url + "?sort=revsD&start="+str(i*50)
         
         r = requests.get(url_next, headers = user_agent)
         
