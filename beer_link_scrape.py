@@ -153,7 +153,7 @@ for style_id in style_ids:
     
     style_url = start_url+style_id+"/"
     
-    if(db.beer_reviews.find({'style_ba_id' : style_id}).count() < 1):
+    if(db.beer_reviews.find({'style_ba_id' : style_id}).count() > 1):
         print(style_id+" is already added.")
         continue
     
