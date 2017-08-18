@@ -136,7 +136,7 @@ client = pymongo.MongoClient("mongodb://aawiegel:"+mongo_pass+"@52.53.236.232/be
 db = client.beer_styles
 
 style_ids = []
-for entry in db.beer_styles.find():
+for entry in db.beer_styles.find({'category' : 'Lager'}):
     style_ids.append(entry['style_id'])
     
 client.close()
