@@ -12,6 +12,8 @@ from fake_useragent import UserAgent
 import os
 import re
 import requests
+import time
+import random
 
 ua = UserAgent()
 
@@ -151,6 +153,10 @@ for style_id in style_ids:
     
     style_url = start_url+style_id+"/"
     
+    if(db.beer_reviews.find({'style_id' : style_id}).count() < 1):
+        print(style_id+" is already added.")
+        continue
+    
     user_agent = {'User-agent': ua.random}
     
     r = requests.get(style_url, headers = user_agent)
@@ -170,7 +176,7 @@ for style_id in style_ids:
             db.beer_reviews.insert_one(beer)
         else:
             already_added.append(beer['beer_ba_id'])
-    
+    time.sleep(random.uniform(3, 5))
     # Get all pages that link to reviews of beer
     
     for i in range(1,page_num+1):
@@ -188,9 +194,13 @@ for style_id in style_ids:
                 db.beer_reviews.insert_one(beer)
             else:
                 already_added.append(beer['beer_ba_id'])
-    
+        
         if(stop_flag):
+            time.sleep(random.uniform(15, 20))
             break
+        
+        time.sleep(random.uniform(3, 5))
+        
         
     print("Completed "+style_id)
     
