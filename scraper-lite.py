@@ -79,8 +79,7 @@ for lager_style in lager_ids:
             r = requests.get(beer_url, headers = user_agent)
             beer_entry = parse_beer_formongo(r.text)
 
-            result = db.beer_reviews.update_one({'beer_ba_id' : beer_id}, 
-                                                {'$addToSet' : {'reviews' : { '$each' : beer_entry }}})            
+           
 
             time.sleep(random.uniform(3, 5))
         except:
@@ -88,6 +87,14 @@ for lager_style in lager_ids:
             print("Will try again later.")
             time.sleep(random.uniform(25, 35))
             failed_urls.append(beer_url)
+            
+        if(beer_entry):
+            result = db.beer_reviews.update_one({'beer_ba_id' : beer_id}, 
+                                                {'$addToSet' : {'reviews' : { '$each' : beer_entry['reviews'] }}})
+            result = db.beer_reviews.update_one({'beer_ba_id' : beer_id},
+                                                {'$set' : {'description' : beer_entry['description']}})
+            result = db.beer_reviews.update_one({'beer_ba_id' : beer_id},
+                                                {'$set' : {'beer_stats' : beer_entry['beer_stats']}})
         
 
             
@@ -104,15 +111,17 @@ for lager_style in lager_ids:
                 
                 beer_entry = parse_beer_formongo(r.text)
                 
-                result = db.beer_reviews.update_one({'beer_ba_id' : beer_id}, 
-                                                    {'$addToSet' : {'reviews' : { '$each' : beer_entry }}})
 
                 time.sleep(random.uniform(3, 5))
             except:
-                print("Could not retrieve "+beer_url)
+                print("Could not retrieve "+next_url)
                 print("Will try again later.")
                 time.sleep(random.uniform(25, 35))
-                failed_urls.append(beer_url)
+                failed_urls.append(next_url)
+                
+            if(beer_entry):
+                result = db.beer_reviews.update_one({'beer_ba_id' : beer_id}, 
+                                                    {'$addToSet' : {'reviews' : { '$each' : beer_entry['reviews'] }}}) 
             
 
             
