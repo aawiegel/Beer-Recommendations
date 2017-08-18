@@ -63,7 +63,7 @@ failed_urls = []
 for lager_style in lager_ids:
     
     print(lager_style+" is starting.")
-    for beer in db.beer_reviews.find({"style_ba_id" : {"$in" : lager_ids}}):
+    for beer in db.beer_reviews.find({"style_ba_id" : lager_style}):
         
         page_num = beer["ratings"] // 25 + 1
         
