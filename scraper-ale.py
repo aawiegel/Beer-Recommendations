@@ -65,7 +65,7 @@ ale_ids = ['116'] # Replace with ale id to be scraped
 for ale_style in ale_ids:
     
     print(ale_style+" is starting.")
-    for beer in db.beer_reviews.find({"style_ba_id" : ale_style}, timeout=False):
+    for beer in db.beer_reviews.find({"style_ba_id" : ale_style}, no_cursor_timeout=True):
         
         page_num = beer["ratings"] // 25 + 1
         
